@@ -4,6 +4,10 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+pep8 = "*"
+jedi = "*"
+flake8 = "*"
+pytest = "*"
 
 [packages]
 certifi = "==2019.3.9"
@@ -12,9 +16,8 @@ pipenv = "==2018.11.26"
 virtualenv = "==16.6.0"
 virtualenv-clone = "==0.5.3"
 SQLAlchemy = "==1.3.4"
-flake8 = "*"
-pep8 = "*"
-jedi = "*"
+dev = {editable = true,path = "."}
+pi-garden = {editable = true,path = "."}
 
 [requires]
 python_version = "3.7"

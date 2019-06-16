@@ -3,7 +3,7 @@ CREATE TABLE climate (
 	sample_date TIMESTAMP,
 	temperature DECIMAL(3,1),
 	humidity_percent DECIMAL(3,1),
-	external_temp DECIMAL(3,1),
+	external_temperature DECIMAL(3,1),
 	external_humidity_percent DECIMAL(3,1),
 	PRIMARY KEY (id),
 	INDEX (sample_date)
