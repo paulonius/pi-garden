@@ -1,4 +1,6 @@
-from api.persistence import config, db_uri
+from api.persistence import config, db_uri, connect, engine
+from api.model import Water
+from sqlalchemy import desc
 import re
 
 
@@ -24,3 +26,19 @@ class TestDbUri(object):
 
     def test_db_uri_follows_format(self):
         assert re.match("^[a-z]+://.+:.+@.+/.+$", db_uri)
+
+
+class TestConnect(object):
+    def test_connect_objects(self):
+        session = connect()
+        assert engine is not None
+        assert session is not None
+
+    def test_session(self):
+        session = connect()
+        water = Water(height_mm=23)
+        session.add(water)
+        db_water = session.query(Water).filter_by(height_mm='23').order_by(
+            desc(Water.id)).first()
+        assert db_water is water
+        session.rollback()

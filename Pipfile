@@ -16,6 +16,9 @@ pi-garden = {editable = true,path = "."}
 psycopg2 = "*"
 flask-sqlalchemy = "*"
 pytest = "*"
+pytest-mock = "*"
+adafruit-dht = "*"
+pip = "*"
 
 [requires]
 python_version = "3.7"

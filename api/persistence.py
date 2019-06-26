@@ -1,6 +1,6 @@
 import configparser
 
-from sqlalchemy import create_engine, MetaData
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 config = configparser.ConfigParser()
@@ -13,9 +13,9 @@ db_uri = db_uri.format(config['DATABASE']['Protocol'],
                        config['DATABASE']['Host'], config['DATABASE']['Port'],
                        config['DATABASE']['Database'])
 
+engine = create_engine(db_uri, client_encoding='utf8')
+Session = sessionmaker(bind=engine)
+
 
 def connect():
-    con = create_engine(db_uri, client_encoding='utf8')
-    meta = MetaData(bind=con, reflect=True)
-
-    return con, meta
+    return Session()
