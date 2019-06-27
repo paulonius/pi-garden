@@ -1,8 +1,6 @@
-from api.persistence import connect
+from api.persistence import connect, config
 from api.model import Climate
-import Adafruit_DHT
+from api.sensors import getDHTdata
+from api.external import getLocalClimate
 
 
-def getDHTdata():
-    dht_11 = Adafruit_DHT.DHT11
-    return Climate()

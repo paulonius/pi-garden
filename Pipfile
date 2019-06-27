@@ -19,6 +19,7 @@ pytest = "*"
 pytest-mock = "*"
 adafruit-dht = "*"
 pip = "*"
+urlib = "*"
 
 [requires]
 python_version = "3.7"
