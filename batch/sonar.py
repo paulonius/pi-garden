@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 
 import time
-
+import configparser
 import pigpio
 
-TRIGGER = 14
-ECHO = 15
+config = configparser.ConfigParser()
+config.read('../config.ini')
+TRIGGER = int(config['SENSORS']['SonarTrigger'])
+ECHO = int(config['SENSORS']['SonarEcho'])
 
 
 class ranger:

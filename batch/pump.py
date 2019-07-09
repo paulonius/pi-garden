@@ -4,7 +4,7 @@ import configparser
 
 config = configparser.ConfigParser()
 config.read('../config.ini')
-SIG = config['SENSORS']['Pump']
+SIG = int(config['SENSORS']['Pump'])
 
 
 class pump:
