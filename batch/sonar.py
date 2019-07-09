@@ -5,7 +5,7 @@ import configparser
 import pigpio
 
 config = configparser.ConfigParser()
-config.read('../config.ini')
+config.read('config.ini')
 TRIGGER = int(config['SENSORS']['SonarTrigger'])
 ECHO = int(config['SENSORS']['SonarEcho'])
 

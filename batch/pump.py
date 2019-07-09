@@ -3,7 +3,7 @@ import pigpio
 import configparser
 
 config = configparser.ConfigParser()
-config.read('../config.ini')
+config.read('config.ini')
 SIG = int(config['SENSORS']['Pump'])
 
 
