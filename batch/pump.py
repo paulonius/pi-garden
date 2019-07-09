@@ -103,7 +103,8 @@ if __name__ == "__main__":
 
     if (toggle):
         device.toggle()
-        print("Pump is now {}".format(device.get_current_state()))
+        state = "ON" if device.is_running() else "OFF"
+        print("Pump is now {}".format(state))
         sys.exit()
 
     print("Starting pump for {} seconds".format(duration))
