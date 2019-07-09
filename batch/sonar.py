@@ -4,6 +4,9 @@ import time
 
 import pigpio
 
+TRIGGER = 14
+ECHO = 15
+
 
 class ranger:
     """
@@ -70,48 +73,38 @@ class ranger:
             self.pi.gpio_trigger(self._trig)
             start = time.time()
             while not self._ping:
-                if (time.time() - start) > 5.0:
+                if (time.time() - start) > 3.0:
                     return 20000
                 time.sleep(0.001)
             return self._time
         else:
             return None
 
-    def read_cm(self):
+    def convert_to_mm(self, microseconds):
         """
-        Reads the microseconds and transforms it to centimeters
+        Sound travels at 343 meters per second. The sound has to travel
+        the distance twice; it travels to the object and then back to
+        the sensor.
+        """
+        return round(((microseconds / 1000000.0) * 343.0 / 2.0) * 1000, 3)
+
+    def read_mm(self):
+        """
+        Reads the microseconds and transforms it to milimeters
         """
         if self._inited:
-            return self.convert_to_cm(self.read())
+            dist = self.read()
+            if dist == 20000:  # Avoid noise
+                dist = self.read()
+            return self.convert_to_mm(dist)
         else:
             return None
 
-    def convert_to_cm(self, microseconds):
-        """
-        Sound travels at 343 meters per second, which means it needs
-        29.155 microseconds per centimeter. So, we have to divide the
-        duration by 29 and then by 2, because the sound has to travel
-        the distance twice. It travels to the object and then back to
-        the sensor.
-        """
-        return round(microseconds / 29.0 / 2.0, 3)
-
-    def measure_distance(self, seconds):
-        if self._inited:
-            end = time.time() + seconds
-            total = 0.0
-            r = 1
-            while time.time() < end:
-                total += self.read_cm()
-                r += 1
-                time.sleep(0.03)
-            return round(total/r, 3)
-
     def cancel(self):
         """
-      Cancels the ranger and returns the gpios to their
-      original mode.
-      """
+        Cancels the ranger and returns the gpios to their
+        original mode.
+        """
         if self._inited:
             self._inited = False
             self._cb.cancel()
@@ -123,11 +116,10 @@ if __name__ == "__main__":
 
     pi = pigpio.pi()
 
-    sonar = ranger(pi, 15, 14)
-    secs = 6
-    dist = sonar.measure_distance(secs)
+    sonar = ranger(pi, TRIGGER, ECHO)
+    dist = sonar.read_mm()
 
-    print("Measured distance over {} seconds: {} cm".format(secs, dist))
+    print("Measured distance: {} mm".format(dist))
 
     sonar.cancel()
 

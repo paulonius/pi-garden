@@ -1,7 +1,10 @@
 #!/usr/bin/python3
 import pigpio
+import configparser
 
-SIG = 18
+config = configparser.ConfigParser()
+config.read('../config.ini')
+SIG = config['SENSORS']['Pump']
 
 
 class pump:
@@ -21,7 +24,7 @@ class pump:
 
         self._inited = True
 
-    def start_pump(self):
+    def start(self):
         """
         Starts the pump
         """
@@ -30,7 +33,7 @@ class pump:
         else:
             return None
 
-    def stop_pump(self):
+    def stop(self):
         """
         Stops the pump
         """
@@ -39,7 +42,7 @@ class pump:
         else:
             return None
 
-    def toggle_pump(self):
+    def toggle(self):
         """
         Toggles pump function
         """
@@ -52,16 +55,16 @@ class pump:
         else:
             return None
 
-    def get_current_state(self):
+    def is_running(self):
         """
         Returns pump current state
         """
         if self._inited:
             state = self.pi.read(self._sig)
             if (state == pigpio.LOW):
-                return 'OFF'
+                return False
             else:
-                return 'ON'
+                return True
         else:
             return None
 
@@ -99,13 +102,13 @@ if __name__ == "__main__":
     device = pump(pi, pin)
 
     if (toggle):
-        device.toggle_pump()
+        device.toggle()
         print("Pump is now {}".format(device.get_current_state()))
         sys.exit()
 
     print("Starting pump for {} seconds".format(duration))
-    device.start_pump()
+    device.start()
     time.sleep(duration)
-    device.stop_pump()
+    device.stop()
     print("Finished pumping at {}".format(time.ctime()))
     pi.stop()
