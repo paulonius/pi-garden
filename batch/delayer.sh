@@ -22,12 +22,10 @@ else
     esac
 fi
 
-echo $PERIOD
 sunwait wait civ $period 42.342742N 7.858719W
 if [ $? = 0 ]; then
     shift
     $@
 else
     echo "too late to execute for sun$period"
-    exit 0
 fi
