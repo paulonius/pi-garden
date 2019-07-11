@@ -1,9 +1,13 @@
 #!/usr/bin/python3
 import pigpio
 import configparser
+import os
+
+dirname = os.path.dirname(__file__)
+config_file = os.path.join(dirname, '../config.ini')
 
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read(config_file)
 SIG = int(config['SENSORS']['Pump'])
 
 
