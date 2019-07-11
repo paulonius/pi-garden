@@ -24,7 +24,7 @@ fi
 
 echo $PERIOD
 sunwait wait civ $period 42.342742N 7.858719W
-if [ $? = 1 ]; then
+if [ $? = 0 ]; then
     shift
     $@
 else
