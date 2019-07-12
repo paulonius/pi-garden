@@ -4,7 +4,10 @@ import configparser
 import os
 
 dirname = os.path.dirname(__file__)
-config_file = os.path.join(dirname, '../config.ini')
+if "pi-garden" in dirname:
+    config_file = os.path.join(dirname, '../config.ini')
+else:
+    config_file = os.path.join(os.environ['HOME'], 'pi-garden/config.ini')
 
 config = configparser.ConfigParser()
 config.read(config_file)
@@ -110,9 +113,14 @@ if __name__ == "__main__":
         state = "ON" if device.is_running() else "OFF"
         print("Pump is now {}".format(state))
         sys.exit()
-    print("Starting pump for {} seconds".format(duration))
-    device.start()
-    time.sleep(duration)
-    device.stop()
-    print("Finished pumping at {}".format(time.ctime()))
-    pi.stop()
+    try:
+        print("Starting pump for {} seconds".format(duration))
+        device.start()
+        time.sleep(duration)
+        device.stop()
+        print("Finished pumping at {}".format(time.ctime()))
+        pi.stop()
+    except KeyboardInterrupt:
+        print("Pumping interrupted by User")
+        device.stop()
+        pi.stop()
