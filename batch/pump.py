@@ -82,18 +82,18 @@ if __name__ == "__main__":
     import time
     import getopt
 
-    usage = 'pump.py [-d <seconds>] [-p <pin>] [-h] [-t toggle]'
+    usage = 'pump.py [-d <seconds>] [-p <pin>] [-h] [-t toggle] [-s status]'
     pin = SIG
     duration = 300
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hd:p:t",
-                                   ["help", "duration=", "pin=", "toggle"])
+        opts, args = getopt.getopt(sys.argv[1:], "hd:p:ts",
+                                   ["help", "duration=", "pin=", "toggle", "status"])
     except getopt.GetoptError:
         print(usage)
         sys.exit(2)
 
-    toggle = False
+    program = ""
     for opt, arg in opts:
         if opt == '-h':
             print(usage)
@@ -103,24 +103,31 @@ if __name__ == "__main__":
         elif opt in ('-p', '--pin'):
             pin = int(arg)
         elif opt in ('-t', '--toggle'):
-            toggle = True
+            program = "toggle"
+        elif opt in ('-s', '--status'):
+            program = "status"
 
     pi = pigpio.pi()
     device = pump(pi, pin)
 
-    if (toggle):
+    if program == "toggle":
         device.toggle()
         state = "ON" if device.is_running() else "OFF"
         print("Pump is now {}".format(state))
         sys.exit()
-    try:
-        print("Starting pump for {} seconds".format(duration))
-        device.start()
-        time.sleep(duration)
-        device.stop()
-        print("Finished pumping at {}".format(time.ctime()))
-        pi.stop()
-    except KeyboardInterrupt:
-        print("Pumping interrupted by User")
-        device.stop()
-        pi.stop()
+    elif program == "status":
+        state = "ON" if device.is_running() else "OFF"
+        print("Pump is currently {}".format(state))
+        sys.exit()
+    else:
+        try:
+            print("Starting pump for {} seconds".format(duration))
+            device.start()
+            time.sleep(duration)
+            device.stop()
+            print("Finished pumping at {}".format(time.ctime()))
+            pi.stop()
+        except KeyboardInterrupt:
+            print("Pumping interrupted by User")
+            device.stop()
+            pi.stop()
