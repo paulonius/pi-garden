@@ -6,7 +6,7 @@ import pigpio
 def get_pump_state():
     pi = pigpio.pi()
     is_running = pump(pi).is_running()
-    pi.close()
+    pi.stop()
     return is_running
 
 
@@ -14,5 +14,5 @@ def get_water_measurement():
     pi = pigpio.pi()
     distance_mm, water_level = ranger(pi).read_both()
     is_running = pump(pi).is_running()
-    pi.close()
+    pi.stop()
     return distance_mm, water_level, is_running
