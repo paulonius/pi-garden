@@ -18,6 +18,7 @@ flask-sqlalchemy = "*"
 pytest = "*"
 pytest-mock = "*"
 pip = "*"
+pigpio = "*"
 
 [requires]
 python_version = "3.7"
