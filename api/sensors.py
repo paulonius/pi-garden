@@ -1,21 +1,28 @@
 from batch.sonar import ranger
+from batch.pump import pump as pump
 from api.persistence import config
 import pigpio
 
 
-def get_water_distance():
-    pi = pigpio.pi()
-    sonar = ranger(pi, config['SENSORS']['SonarTrigger'],
-                   config['SENSORS']['SonarEcho'])
-    distance_mm = sonar.read_mm()
-    pi.close()
-    return distance_mm
+def create_sonar(pi):
+    return ranger(pi, config['SENSORS']['SonarTrigger'],
+                  config['SENSORS']['SonarEcho'])
 
 
-def get_water_level():
+def create_pump(pi):
+    return pump(pi, config['SENSORS']['Pump'])
+
+
+def get_pump_state():
     pi = pigpio.pi()
-    sonar = ranger(pi, config['SENSORS']['SonarTrigger'],
-                   config['SENSORS']['SonarEcho'])
-    height_mm = sonar.read_water_level()
+    is_running = create_pump(pi).is_running()
     pi.close()
-    return height_mm
+    return is_running
+
+
+def get_water_measurement():
+    pi = pigpio.pi()
+    distance_mm, water_level = create_sonar(pi).read_both()
+    is_running = create_pump(pi).is_running()
+    pi.close()
+    return distance_mm, water_level, is_running

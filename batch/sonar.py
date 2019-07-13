@@ -110,13 +110,24 @@ class ranger:
         else:
             return None
 
-    def read_water_level(self):
+    def convert_to_water_level(self, distance_mm):
         """
-        Reads the distance to the water table and substracts it from the
+        Substracts the distance to the water table from the
         sensor height, efectively returning the water table height
         """
         if self._inited:
-            return HEIGHT - self.read_mm()
+            return HEIGHT - distance_mm
+        else:
+            return None
+
+    def read_both(self):
+        """
+        Reads both distance to the water table and the water level, and returns
+        them as a tuple.
+        """
+        if self._inited:
+            distance_mm = self.read_mm()
+            return distance_mm, self.convert_to_water_level(distance_mm)
         else:
             return None
 
