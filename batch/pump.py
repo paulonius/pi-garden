@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import pigpio
-from configloader import config
+from api.persistence import config
 
 SIG = int(config['SENSORS']['Pump'])
 
@@ -78,8 +78,9 @@ if __name__ == "__main__":
     duration = 300
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hd:p:ts",
-                                   ["help", "duration=", "pin=", "toggle", "status"])
+        opts, args = getopt.getopt(
+            sys.argv[1:], "hd:p:ts",
+            ["help", "duration=", "pin=", "toggle", "status"])
     except getopt.GetoptError:
         print(usage)
         sys.exit(2)

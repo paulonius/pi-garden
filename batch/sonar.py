@@ -2,7 +2,7 @@
 import time
 import pigpio
 
-from configloader import config
+from api.persistence import config
 
 TRIGGER = int(config['SENSORS']['SonarTrigger'])
 ECHO = int(config['SENSORS']['SonarEcho'])

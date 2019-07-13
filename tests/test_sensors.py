@@ -1,5 +1,4 @@
 import pigpio
-import batch.sonar
 
 from api.sensors import get_water_distance, get_water_level
 from api.persistence import config

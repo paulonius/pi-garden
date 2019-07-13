@@ -1,7 +1,16 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from batch.configloader import config
+import configparser
+import os
 
+dirname = os.path.dirname(__file__)
+if "pi-garden" in dirname:
+    config_file = os.path.join(dirname, '../config.ini')
+else:
+    config_file = os.path.join(os.environ['HOME'], 'pi-garden/config.ini')
+
+config = configparser.ConfigParser()
+config.read(config_file)
 
 db_uri = "{}//{}:{}@{}:{}/{}"
 db_uri = db_uri.format(config['DATABASE']['Protocol'],

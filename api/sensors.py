@@ -1,5 +1,5 @@
 from batch.sonar import ranger
-from batch.configloader import config
+from api.persistence import config
 import pigpio
 
 
