@@ -8,6 +8,7 @@ config = configparser.ConfigParser()
 config.read('config.ini')
 TRIGGER = int(config['SENSORS']['SonarTrigger'])
 ECHO = int(config['SENSORS']['SonarEcho'])
+HEIGHT = float(config['SENSORS']['SonarHeight'])
 
 
 class ranger:
@@ -102,6 +103,16 @@ class ranger:
         else:
             return None
 
+    def read_water_level(self):
+        """
+        Reads the distance to the water table and substracts it from the
+        sensor height, efectively returning the water table height
+        """
+        if self._inited:
+            return HEIGHT - self.read_mm()
+        else:
+            return None
+
     def cancel(self):
         """
         Cancels the ranger and returns the gpios to their
@@ -122,6 +133,7 @@ if __name__ == "__main__":
     dist = sonar.read_mm()
 
     print("Measured distance: {} mm".format(dist))
+    print("Water table height: {} mm".format(HEIGHT - dist))
 
     sonar.cancel()
 
