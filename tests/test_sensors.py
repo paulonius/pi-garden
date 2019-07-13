@@ -1,5 +1,3 @@
-import pigpio
-
 from api.sensors import get_water_measurement, get_pump_state
 from api.persistence import config
 
@@ -21,6 +19,7 @@ class TestDistance(object):
     def test_get_water_measurement_calls_read_both(self, mocker):
         mocker.patch('pigpio.pi')
         distancer = mocker.patch('batch.sonar.ranger.read_both')
+        distancer.return_value = 0, 0
         get_water_measurement()
         distancer.assert_called_once()
 
@@ -36,7 +35,7 @@ class TestDistance(object):
         distancer = mocker.patch('batch.sonar.ranger.read_both')
         height = float(config['SENSORS']['SonarHeight'])
         distancer.return_value = 332.32, height - 332.32
-        pump = mocker.patch('batch.pump.is_running')
+        pump = mocker.patch('batch.pump.pump.is_running')
         pump.return_value = True
         distance, water_level, is_running = get_water_measurement()
         assert 332.32 != water_level
@@ -56,6 +55,6 @@ class TestPump(object):
 
     def test_get_pump_state_should_return_boolean(self, mocker):
         mocker.patch('pigpio.pi')
-        pump = mocker.patch('batch.pump.is_running')
+        pump = mocker.patch('batch.pump.pump.is_running')
         pump.return_value = True
         assert True is get_pump_state()

@@ -30,14 +30,14 @@ class ranger:
     the high and low edges indicates the sonar round trip time.
     """
 
-    def __init__(self, pi, trigger, echo):
+    def __init__(self, pi):
         """
         The class is instantiated with the Pi to use and the
         gpios connected to the trigger and echo pins.
         """
         self.pi = pi
-        self._trig = trigger
-        self._echo = echo
+        self._trig = TRIGGER
+        self._echo = ECHO
 
         self._ping = False
         self._high = None

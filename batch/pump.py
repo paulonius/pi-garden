@@ -22,9 +22,9 @@ class pump:
     relay.
     """
 
-    def __init__(self, pi, sig):
+    def __init__(self, pi):
         self.pi = pi
-        self._sig = sig
+        self._sig = SIG
 
         self._sig_mode = pi.get_mode(self._sig)
 
