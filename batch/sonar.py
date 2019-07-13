@@ -1,11 +1,9 @@
-#!/usr/bin/env python
-
+#!/usr/bin/python3
 import time
-import configparser
 import pigpio
 
-config = configparser.ConfigParser()
-config.read('config.ini')
+from configloader import config
+
 TRIGGER = int(config['SENSORS']['SonarTrigger'])
 ECHO = int(config['SENSORS']['SonarEcho'])
 HEIGHT = float(config['SENSORS']['SonarHeight'])

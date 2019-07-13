@@ -1,5 +1,5 @@
 from urllib.request import urlopen
-from api.persistence import config
+from batch.configloader import config
 import json
 
 # https://www.meteogalicia.gal/datosred/infoweb/meteo/docs/rss/JSON_ultimos10min_gl.pdf
