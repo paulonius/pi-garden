@@ -1,6 +1,8 @@
 from batch.sonar import ranger
 from batch.pump import pump
 import pigpio
+import os
+from picamera import PiCamera
 
 
 def get_pump_state():
