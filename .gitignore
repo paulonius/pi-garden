@@ -1,3 +1,4 @@
 /venv
 /pi_garden.egg-info
 /*/__pycache__
+/static/latest.jpg
