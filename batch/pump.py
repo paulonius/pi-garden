@@ -83,14 +83,14 @@ if __name__ == "__main__":
     import time
     import getopt
 
-    usage = 'pump.py [-d <seconds>] [-p <pin>] [-h] [-t toggle] [-s status]'
+    usage = 'pump.py [-d <seconds>] [-h] [-t toggle] [-s status]'
     pin = SIG
     duration = 300
 
     try:
         opts, args = getopt.getopt(
-            sys.argv[1:], "hd:p:ts",
-            ["help", "duration=", "pin=", "toggle", "status"])
+            sys.argv[1:], "hd:ts",
+            ["help", "duration=", "toggle", "status"])
     except getopt.GetoptError:
         print(usage)
         sys.exit(2)
@@ -102,15 +102,13 @@ if __name__ == "__main__":
             sys.exit()
         elif opt in ('-d', '--duration'):
             duration = int(arg)
-        elif opt in ('-p', '--pin'):
-            pin = int(arg)
         elif opt in ('-t', '--toggle'):
             program = "toggle"
         elif opt in ('-s', '--status'):
             program = "status"
 
     pi = pigpio.pi()
-    device = pump(pi, pin)
+    device = pump(pi)
 
     if program == "toggle":
         device.toggle()
