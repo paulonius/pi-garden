@@ -147,7 +147,7 @@ if __name__ == "__main__":
 
     pi = pigpio.pi()
 
-    sonar = ranger(pi, TRIGGER, ECHO)
+    sonar = ranger(pi)
     dist = sonar.read_mm()
 
     print("Measured distance: {} mm".format(dist))
