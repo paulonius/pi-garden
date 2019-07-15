@@ -1,18 +1,23 @@
-from sqlalchemy import Column, Integer, DateTime, Numeric, Boolean
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from api import db
 
 
-class Climate(Base):
+class Climate(db.Model):
     __tablename__ = 'climate'
 
-    id = Column(Integer, primary_key=True)
-    sample_date = Column(DateTime)
-    temperature = Column(Numeric(precision=3, scale=1))
-    humidity_percent = Column(Numeric(precision=3, scale=1))
-    external_temperature = Column(Numeric(precision=3, scale=1))
-    external_humidity_percent = Column(Numeric(precision=3, scale=1))
+    id = db.Column(db.Integer, primary_key=True)
+    sample_date = db.Column(db.DateTime)
+    temperature = db.Column(db.Numeric(precision=3, scale=1))
+    humidity_percent = db.Column(db.Numeric(precision=3, scale=1))
+    external_temperature = db.Column(db.Numeric(precision=3, scale=1))
+    external_humidity_percent = db.Column(db.Numeric(precision=3, scale=1))
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
 
     def __repr__(self):
         repr = ("<Climate(id='{}', sample_date='{}', temperature='{}', "
@@ -23,14 +28,22 @@ class Climate(Base):
                            self.external_humidity_percent)
 
 
-class Soil(Base):
+class Soil(db.Model):
     __tablename__ = 'soil'
 
-    id = Column(Integer, primary_key=True)
-    sample_date = Column(DateTime)
-    probe = Column(Integer)
-    moisture_percent = Column(Numeric(precision=3, scale=1))
-    conductivity = Column(Numeric(precision=6, scale=2))
+    id = db.Column(db.Integer, primary_key=True)
+    sample_date = db.Column(db.DateTime)
+    probe = db.Column(db.Integer)
+    moisture_percent = db.Column(db.Numeric(precision=3, scale=1))
+    conductivity = db.Column(db.Numeric(precision=6, scale=2))
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
 
     def __repr__(self):
         repr = ("<Soil(id='{}', sample_date='{}', probe='{}', "
@@ -39,14 +52,22 @@ class Soil(Base):
                            self.moisture_percent, self.conductivity)
 
 
-class Water(Base):
+class Water(db.Model):
     __tablename__ = 'water'
 
-    id = Column(Integer, primary_key=True)
-    sample_date = Column(DateTime)
-    height_mm = Column(Integer)
-    distance_to_water_mm = Column(Integer)
-    pump_working = Column(Boolean)
+    id = db.Column(db.Integer, primary_key=True)
+    sample_date = db.Column(db.DateTime)
+    height_mm = db.Column(db.Integer)
+    distance_to_water_mm = db.Column(db.Integer)
+    pump_working = db.Column(db.Boolean)
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
 
     def __repr__(self):
         repr = ("<Water(id='{}', sample_date='{}', height_mm='{}', "

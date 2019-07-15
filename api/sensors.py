@@ -1,7 +1,6 @@
 from batch.sonar import ranger
 from batch.pump import pump
 import pigpio
-import os
 
 
 def get_pump_state():

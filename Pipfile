@@ -19,6 +19,10 @@ pytest = "*"
 pytest-mock = "*"
 pip = "*"
 pigpio = "*"
+flask = "*"
+python-dotenv = "*"
+flask-migrate = "*"
+flask-restful = "*"
 
 [requires]
 python_version = "3.7"

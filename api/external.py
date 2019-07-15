@@ -1,9 +1,9 @@
 from urllib.request import urlopen
-from api.persistence import config
+from instance.config import config_ini
 import json
 
 # https://www.meteogalicia.gal/datosred/infoweb/meteo/docs/rss/JSON_ultimos10min_gl.pdf
-climateUrl = config['URLS']['ClimateUrl']
+climateUrl = config_ini['URLS']['ClimateUrl']
 
 
 def getLocalClimate():
